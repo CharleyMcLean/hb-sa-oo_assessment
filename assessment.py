@@ -61,6 +61,7 @@ class Student(object):
         self.first_name = first_name
         self.last_name = last_name
         self.address = address
+        self.score = ""
 
 
 class Question(object):
@@ -98,10 +99,31 @@ class Exam(object):
             current_question = Question(self.questions[i], self.answers[i])
             if current_question.ask_and_evaluate():
                 score += 1
+        print score
         return score
 
 
+def take_test(exam, student):
+    """Takes an exam and a student as parameters, administers the exam,
+        and assigns the score to the student instance as a new attribute 
+        called score."""
+    # Administer the exam and assign the score to the student.
+    student.score = exam.administer()
 
 
+def example():
+    """Creates an exam with questions and a student.  Administers exam
+        to the student."""
+    # Create an exam.
+    final = Exam("Final exam")
 
+    # Add questions to the exam.
+    final.add_question("Who was the first president of the US?", "George Washington")
+    final.add_question("What color is a sunflower?", "yellow")
+    final.add_question("What day of the week is Thanksgiving?", "Thursday")
 
+    # Create a student.
+    alex = Student("Alex", "McLean", "Walnut Creek")
+
+    # Administer the test to the student.
+    final.administer()
