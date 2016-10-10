@@ -52,8 +52,6 @@ Part 1: Discussion
 # Parts 2 through 5:
 # Create your classes and class methods
 
-# Part 2
-
 class Student(object):
     """A class for any student"""
 
@@ -72,13 +70,10 @@ class Question(object):
         self.correct_answer = correct_answer
 
     def ask_and_evaluate(self):
+        """Ask the user for an answer and return True if it is correct"""
         print self.question
         user_answer = raw_input("What's your answer? > ")
-        if user_answer == self.correct_answer:
-            return True
-        else:
-            return False
-
+        return user_answer == self.correct_answer
 
 class Exam(object):
     """A class for any exam"""
@@ -87,21 +82,34 @@ class Exam(object):
         self.name = name
         self.questions = []
         self.answers = []
+        self.score = int()
 
     def add_question(self, question, correct_answer):
+        """Add question and answer to the questions and answers attribute lists"""
         self.questions.append(question)
         self.answers.append(correct_answer)
 
     def administer(self):
+        """Administer test and return score"""
         score = 0
-        # for question in self.questions:
+        # For question in self.questions:
         for i in range(len(self.questions)):
             current_question = Question(self.questions[i], self.answers[i])
             if current_question.ask_and_evaluate():
                 score += 1
-        print score
-        return score
+        
+        # Return score as a percent, between 0 and 100.
+        return float(score) / len(self.questions) * 100
 
+
+class Quiz(Exam):
+    """A class for quizzes"""
+    def __init__(self):
+        super(Quiz, self).__init__("Quiz")
+
+    def administer(self):
+        score = super(Quiz, self).administer()
+        return score >= 50
 
 def take_test(exam, student):
     """Takes an exam and a student as parameters, administers the exam,
